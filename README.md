@@ -77,9 +77,9 @@ The lane maskings and original image are combined using cv2.bitwise_or, which ca
 ### Pipeline (video)
 
 #### Results
-Basic
+##### Basic
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/xgv6zKWNXYM/0.jpg)](https://www.youtube.com/watch?v=xgv6zKWNXYM)
-Advanced
+##### Advanced
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/ng9edgddoms/0.jpg)](https://www.youtube.com/watch?v=ng9edgddoms)
 ---
 

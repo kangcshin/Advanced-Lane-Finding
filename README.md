@@ -24,7 +24,6 @@ The goals / steps of this project are the following:
 [video1]: ./project_video_output.mp4 "Video1"
 [video2]: ./challenge_video_output.mp4 "Video2"
 
-[video1]: ./project_video.mp4 "Video"
 ---
 ### Camera Calibration
 

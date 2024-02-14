@@ -1,88 +1,48 @@
-# Advanced-Lane-Finding
-Built an advanced lane-finding algorithm using distortion correction, image rectification, color transforms, and gradient thresholding. Identified lane curvature and vehicle displacement. Overcame environmental challenges such as shadows and pavement changes.
+# Advanced Lane Finding
+> Implementing an advanced lane-finding algorithm using computer vision techniques to enhance autonomous driving systems.
 
-The goals / steps of this project are the following:
+This project develops a comprehensive lane-finding algorithm that incorporates distortion correction, image rectification, color transforms, gradient thresholding, and perspective transformations to accurately identify lane boundaries, curvature, and the vehicle's displacement from the center. The algorithm is robust against environmental challenges such as shadows, pavement changes, and varying lighting conditions.
 
-* Compute the camera calibration matrix and distortion coefficients given a set of chessboard images.
-* Apply a distortion correction to raw images.
-* Use color transforms, gradients, etc., to create a thresholded binary image.
-* Apply a perspective transform to rectify binary image ("birds-eye view").
-* Detect lane pixels and fit to find the lane boundary.
-* Determine the curvature of the lane and vehicle position with respect to center.
-* Warp the detected lane boundaries back onto the original image.
-* Output visual display of the lane boundaries and numerical estimation of lane curvature and vehicle position.
+### Project Objectives
+- **Camera Calibration**: Compute camera calibration matrix and distortion coefficients using chessboard images to correct distortion in road images.
+- **Distortion Correction**: Apply distortion correction to raw images to ensure accurate lane detection.
+- **Binary Image Creation**: Use color transforms and gradients to generate thresholded binary images that highlight lane lines.
+- **Perspective Transformation**: Apply perspective transform to obtain a "bird's-eye view" of the roadway, facilitating lane detection.
+- **Lane Detection**: Identify lane pixels, fit polynomial functions to lane lines, calculate lane curvature, and estimate vehicle position.
+- **Visualization**: Overlay lane boundaries on the original image and provide real-time feedback on lane curvature and vehicle position.
 
-[//]: # (Image References)
+### Technical Highlights
 
-[image1]: ./1.png "Calibration Photos"
-[image2]: ./2.png "Undistorted"
-[image3]: ./3.png "Undistorted Photo"
-[image4]: ./4.png "Warp Example"
-[image5]: ./5.png "Binary"
-[image6]: ./9.png "Output"
-[image7]: ./10.png "Output1"
-[video1]: ./project_video_output.mp4 "Video1"
-[video2]: ./challenge_video_output.mp4 "Video2"
+#### Camera Calibration and Image Correction
+- Utilized chessboard images to calibrate the camera, correcting for distortion and improving the accuracy of lane detection.
 
----
-### Camera Calibration
+  ![Camera Calibration](./1.png)
+  ![Undistorted Image](./2.png)
 
-#### Camera Matrix and Distortion Coefficient Computations
+#### Thresholded Binary Image
+- Combined color and gradient thresholds to isolate lane lines, creating a binary image that serves as the foundation for lane detection.
 
-The code for this step is contained in the second, third, fourth code cells of the IPython notebook located in "pre.ipynb".  
-Most of the code used here in this process is from the Udacity lessons. The images are read with mpimg.imread so cv2.COLOR_RGB2GRAY is used to convert the images to gray scale. cv2.findChessboardCorners is followed after to collect objpoints and imgpoints. By using pickle, mtx and dist are collected for each calibration image that was ran through undistort function.
-
-![alt text][image1]
-![alt text][image2]
-
-### Pipeline (single images)
-
-#### Example of a Distortion-Corrected Image
-
-To demonstrate this step, I will describe how I apply the distortion correction to one of the test images like this one:
-![alt text][image3]
-
-#### Color Transforms and Gradients for Thresholded Binary Image
-
-I used a combination of color and gradient thresholds to generate a binary image (code cells eight, nine, and ten in `pre.ipynb`).  Here's an example of my output for this step.  (test image 2)
-
-![alt text][image5]
+  ![Thresholded Binary](./5.png)
 
 #### Perspective Transform
+- Implemented perspective transformation to warp the image to a "bird's-eye view", enabling precise lane detection and curvature calculation.
 
-The code for my perspective transform includes a function called `transform_image()` in code cell six in pre.ipynb.  The `transform_image()` function takes as inputs an image (`img`), image size (size) as well as source (`src`) and destination (`dst`) points. Code cell seven explains how src and dst are implemented.
+  ![Perspective Transform](./4.png)
 
-I verified that my perspective transform was working as expected by drawing the `src` and `dst` points onto a test image and its warped counterpart to verify that the lines appear parallel in the warped image.
+#### Lane Detection and Curvature
+- Employed image processing techniques to detect lane boundaries and calculate lane curvature, addressing the critical safety component of autonomous driving.
 
-![alt text][image4]
+  ![Lane Detection](./9.png)
 
-#### Lane-Line Pixels Identification
+### Pipeline Results
+- **Video Implementation**: Successfully applied the lane-finding pipeline to video streams, demonstrating the algorithm's effectiveness in real-world driving scenarios.
 
-In code cells 14, 15, and 16 in pre.ipynb, lane-line pixels are calculated (from scipy.signal import find_peaks_cwt). Here they are then separated from left lane to right. In code cell three from post.ipynb sliding window search is used to find peaks and connect afterwards.
+  - [Basic Video Output](https://www.youtube.com/watch?v=xgv6zKWNXYM)
+  - [Advanced Video Output](https://www.youtube.com/watch?v=ng9edgddoms)
 
-![alt text][image6]
+### Discussion and Future Work
 
-#### Vehicle Position Calculation
-
-I mostly borrowed Udacity's code in lesson 35 Measuring Curvature. This is located in code cell three in post.ipynb. Functions such as curve_form is used to calculate the curve formula.
-
-#### Example Image of Result
-
-The lane maskings and original image are combined using cv2.bitwise_or, which can be found in code cell five in post.ipynb.
-
-![alt text][image7]
-
----
-
-### Pipeline (video)
-
-#### Results
-##### Basic
-[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/xgv6zKWNXYM/0.jpg)](https://www.youtube.com/watch?v=xgv6zKWNXYM)
-##### Advanced
-[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/ng9edgddoms/0.jpg)](https://www.youtube.com/watch?v=ng9edgddoms)
----
-
-### Discussion
-
-The pipeline used here does not work too well with fast changes of curves in the road. Whenever this pipeline encounters peaks that are different in a certain magnitude, it considers them as outliers and ignores those peaks and uses past frames' data to complete the curve. This is why if the road curve changes direction very fast, the pipeline requires a bit of time to adjust to the related curve direction. To fix this, value to control the pipeline's outlier factor may be improved. Also the method of what to do with outliers may be improved in such a way that when the pipeline encounters outliers, the pipeline 'foresees' the direction of the curve and places 'expected' points in frames with outliers. Lastly, lane line detections may be improved with more filter adjustments to eliminate outliers entirely.
+The current pipeline, while effective in standard driving conditions, faces challenges with rapid changes in road curvature and extreme environmental conditions. Future enhancements will focus on:
+- **Dynamic Outlier Handling**: Improving the algorithm's response to sudden changes in curvature by refining outlier detection and incorporating predictive modeling.
+- **Robust Lane Detection**: Enhancing lane line detection algorithms to better handle diverse and challenging road conditions, potentially through the integration of deep learning techniques.
+- **Real-Time Processing**: Optimizing the pipeline for real-time application in autonomous driving systems, ensuring swift and accurate lane finding under all conditions.
